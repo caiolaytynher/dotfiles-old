@@ -25,7 +25,7 @@
 # SOFTWARE.
 
 import os
-#import socket
+import socket
 
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
@@ -33,20 +33,6 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 from colors import Colors
-
-
-# colors = [
-#     ["#2A2824"],
-#     ["#9E847A"],
-#     ["#323731"],
-#     ["#272B2D"],
-#     ["#C0B4AE"],
-#     ["#6A6668"],
-#     ["#A49C9C"],
-#     ["#E6E3E2"],
-#     ["#5E4B44"],
-#     ["#6D5F55"]
-# ]
 
 colors = Colors(
     background="#232222",
@@ -60,65 +46,149 @@ mod = "mod4"
 terminal = "alacritty"
 
 keys = [
-
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-
     # Super + key
-
-    # Change window focus
-    Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-
-    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    Key([mod], "p", lazy.spawn("dmenu_run"), desc="Reset all window sizes"),
-
+    Key(
+        [mod],
+        "h",
+        lazy.layout.left(),
+        desc="Move focus to left",
+    ),
+    Key(
+        [mod],
+        "l",
+        lazy.layout.right(),
+        desc="Move focus to right",
+    ),
+    Key(
+        [mod],
+        "j",
+        lazy.layout.down(),
+        desc="Move focus down",
+    ),
+    Key(
+        [mod],
+        "k",
+        lazy.layout.up(),
+        desc="Move focus up",
+    ),
+    Key(
+        [mod],
+        "space",
+        lazy.layout.next(),
+        desc="Move window focus to other window",
+    ),
+    Key(
+        [mod],
+        "q",
+        lazy.window.kill(),
+        desc="Kill focused window",
+    ),
+    Key(
+        [mod],
+        "Return",
+        lazy.spawn(terminal),
+        desc="Launch terminal",
+    ),
+    Key(
+        [mod],
+        "Tab",
+        lazy.next_layout(),
+        desc="Toggle between layouts",
+    ),
+    Key(
+        [mod],
+        "n",
+        lazy.layout.normalize(),
+        desc="Reset all window sizes",
+    ),
+    Key(
+        [mod],
+        "p",
+        lazy.spawn("dmenu_run"),
+        desc="Reset all window sizes",
+    ),
     # Super + shift + key
-
-    # Move window position
-    # OBS: Moving out of range in Columns layout will create new column.
-    Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
-    Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-
-    # Super + control + key
-
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-
-    # Toggle between different layouts as defined below
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
+    Key(
+        [mod, "shift"],
+        "h",
+        lazy.layout.shuffle_left(),
+        desc="Move window to the left",
+    ),
+    Key(
+        [mod, "shift"],
+        "l",
+        lazy.layout.shuffle_right(),
+        desc="Move window to the right",
+    ),
+    Key(
+        [mod, "shift"],
+        "j",
+        lazy.layout.shuffle_down(),
+        desc="Move window down",
+    ),
+    Key(
+        [mod, "shift"],
+        "k",
+        lazy.layout.shuffle_up(),
+        desc="Move window up",
+    ),
+    Key(
+        [mod, "shift"],
+        "k",
+        lazy.layout.shuffle_up(),
+        desc="Move window up",
+    ),
     Key(
         [mod, "shift"],
         "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
-
-    # Deactivated
-
-    #Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-
+    # Super + control + key
+    Key(
+        [mod, "control"],
+        "h",
+        lazy.layout.grow_left(),
+        desc="Grow window to the left",
+    ),
+    Key(
+        [mod, "control"],
+        "l",
+        lazy.layout.grow_right(),
+        desc="Grow window to the right",
+    ),
+    Key(
+        [mod, "control"],
+        "j",
+        lazy.layout.grow_down(),
+        desc="Grow window down",
+    ),
+    Key(
+        [mod, "control"],
+        "k",
+        lazy.layout.grow_up(),
+        desc="Grow window up",
+    ),
+    Key(
+        [mod, "control"],
+        "q",
+        lazy.shutdown(),
+        desc="Shutdown Qtile",
+    ),
+    Key(
+        [mod, "control"],
+        "r",
+        lazy.reload_config(),
+        desc="Reload the config",
+    ),
     # Alt + key
-
-    Key(["mod1"], "m", lazy.spawn("pcmanfm")),
-
+    Key(
+        ["mod1"],
+        "m",
+        lazy.spawn("pcmanfm"),
+    ),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -148,17 +218,17 @@ for i in groups:
     )
 
 layout_theme = {
-   "margin": 16,
-   "border_width": 2,
-   "border_focus": colors.active,
-   "border_normal": colors.inactive,
+    "margin": 16,
+    "border_width": 2,
+    "border_focus": colors.active,
+    "border_normal": colors.inactive,
 }
 
 layouts = [
     layout.MonadTall(**layout_theme),
-    #layout.Columns(margin=16, border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=2),
-    #layout.Columns(**layout_theme),
-    #layout.Columns(**layout_theme),
+    # layout.Columns(margin=16, border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=2),
+    # layout.Columns(**layout_theme),
+    # layout.Columns(**layout_theme),
     layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(**layout_theme, num_stacks=2),
@@ -173,19 +243,15 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="UbuntuMono Nerd Font bold",
+    font="CaskaydiaCove Nerd Font Mono",
     fontsize=14,
     padding=3,
     background=colors.background,
-    foreground=colors.foreground
+    foreground=colors.foreground,
 )
 extension_defaults = widget_defaults.copy()
 
-# The prompt variable is giving problems
-# def init_widgets_list():
-#     prompt = f"{os.environ['USER']}@{socket.gethostname()}: "
-#     return widgets_list
-
+prompt = f"{os.environ['USER']}@{socket.gethostname()}: "
 
 widgets_list = [
     widget.Sep(
@@ -194,9 +260,9 @@ widgets_list = [
         foreground=colors.background,
     ),
     widget.QuickExit(
-        default_text=" ",
-        fontsize=20,
-        countdown_format="{} ",
+        default_text="",
+        fontsize=32,
+        countdown_format="{}",
     ),
     widget.Sep(
         linewidth=1,
@@ -224,7 +290,7 @@ widgets_list = [
         padding=0,
     ),
     widget.TextBox(
-        font="UbuntuMono Nerd Font",
+        font="CaskaydiaCove Nerd Font Mono",
         text="",
         padding=0,
         foreground=colors.accent_1,
@@ -249,7 +315,7 @@ widgets_list = [
     #     background = colors
     # ),
     widget.TextBox(
-        font="UbuntuMono Nerd Font",
+        font="CaskaydiaCove Nerd Font Mono",
         text="",
         padding=0,
         foreground=colors.accent_2,
@@ -261,7 +327,7 @@ widgets_list = [
         background=colors.accent_2,
     ),
     widget.TextBox(
-        font="UbuntuMono Nerd Font",
+        font="CaskaydiaCove Nerd Font Mono",
         text="",
         padding=0,
         foreground=colors.accent_1,
@@ -289,7 +355,6 @@ widgets_list = [
 ]
 
 
-
 screens = [
     Screen(
         top=bar.Bar(
@@ -303,8 +368,15 @@ screens = [
 
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Drag(
+        [mod],
+        "Button1",
+        lazy.window.set_position_floating(),
+        start=lazy.window.get_position(),
+    ),
+    Drag(
+        [mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()
+    ),
     Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
