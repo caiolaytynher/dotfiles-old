@@ -63,9 +63,13 @@ if exists("&termguicolors") && exists("&winblend")
   set wildoptions=pum
   set pumblend=5
   set background=dark
-  " Use NeoSolarized
-   let g:neosolarized_termtrans=1
-  runtime ./colors/NeoSolarized.vim
-  colorscheme NeoSolarized
+  " Use colorscheme
+  " let g:neosolarized_termtrans=1
+  " runtime ./colors/NeoSolarized.vim
+  " runtime ./colors/tomorrow-night.vim
+  " runtime ./colors/doom-one.vim
+  " runtime ./colors/dracula.vim
+  runtime ./colors/sublimemonokai.vim
+  colorscheme sublimemonokai
 endif
 

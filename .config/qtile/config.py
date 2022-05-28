@@ -35,11 +35,12 @@ from libqtile.utils import guess_terminal
 from colors import Colors
 
 colors = Colors(
-    background="#232222",
-    accent_1="#2C3325",
-    accent_2="#5E4B44",
-    active="#E6E3E2",
-    inactive="#323731",
+    background="#2D2A2E",
+    foreground="#FCFCFA",
+    accent_1="#9A348E",
+    accent_2="#DA627D",
+    active="#FCA17D",
+    inactive="#875541",
 )
 
 mod = "mod4"
