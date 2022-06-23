@@ -42,11 +42,20 @@ if &term =~ "screen"
     autocmd VimLeave * silent!  exe '!echo -n "\ek[`hostname`:`basename $PWD`]\e\\"'
 endif
 
+runtime ./plug.vim
+if has("unix")
+  let s:uname = system("uname -s")
+endif
+
 runtime ./maps.vim
+
+au BufNewFile,BufRead *.fish set filetype=fish
 
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
 autocmd FileType json setlocal shiftwidth=2 tabstop=2
 autocmd FileType css setlocal shiftwidth=2 tabstop=2
+autocmd FileType latex setlocal shiftwidth=2 tabstop=2 textwidth=72
+autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 textwidth=72
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
