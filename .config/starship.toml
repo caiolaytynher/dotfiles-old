@@ -1,8 +1,5 @@
-# Base prompt:
-# https://starship.rs/presets/pastel-powerline.html
-
 format = """
-[](#9A348E)\
+[ ](#9A348E)\
 $username\
 [](bg:#DA627D fg:#9A348E)\
 $directory\
@@ -25,7 +22,7 @@ $rust\
 """
 
 # Disable the blank line at the start of the prompt
-add_newline = false
+# add_newline = false
 
 # You can also replace your username with a neat symbol like  to save some space
 [username]
@@ -43,26 +40,16 @@ truncation_symbol = "…/"
 # Here is how you can shorten some long paths by text replacement
 # similar to mapped_locations in Oh My Posh:
 [directory.substitutions]
-"Documents" = " "
+"Documents" = ""
 "Downloads" = " "
 "Music" = " "
 "Pictures" = " "
-# "c" = " "
-"golang" = " "
-"java" = " "
-"rust" = ""
-"python" = " "
-"javascript" = ""
+"python" = ""
 # Keep in mind that the order matters. For example:
 # "Important Documents" = "  "
 # will not be replaced, because "Documents" was already substituted before.
 # So either put "Important Documents" before "Documents" or use the substituted version:
 # "Important  " = "  "
-
-[python]
-symbol = " "
-style = "bg:#86BBD8"
-format = '[[ $symbol ($version) ](bg:#86BBD8)]($style)'
 
 [c]
 symbol = " "
@@ -128,8 +115,13 @@ symbol = ""
 style = "bg:#86BBD8"
 format = '[[ $symbol ($version) ](bg:#86BBD8)]($style)'
 
+[python]
+symbol = ""
+style = "bg:#86BBD8"
+format = '[[ $symbol ($version) ](bg:#86BBD8)]($style)'
+
 [time]
-disabled = true
+disabled = false
 time_format = "%R" # Hour:Minute Format
 style = "bg:#33658A"
 format = '[[ ♥ $time ](bg:#33658A)]($style)'
