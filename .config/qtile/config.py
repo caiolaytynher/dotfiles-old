@@ -592,6 +592,7 @@ battery = widget.Battery(
     unknown_char="",
     empty_char="",
     low_percentage=0.2,
+    low_foreground=garuda_dracula.normal.red,
 )
 python_logo = widget.TextBox(
     text=" ",
