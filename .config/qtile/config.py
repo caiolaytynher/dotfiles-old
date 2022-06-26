@@ -271,6 +271,7 @@ group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
 group_labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 # group_labels = ["", "", "", "", "", "", "", "", "", ""]
+group_labels = ["", "", "", "", "", "", "", "", "", ""]
 
 group_layouts = [
     "monadtall",
@@ -321,39 +322,6 @@ for i in groups:
         ]
     )
 
-layout_theme = {
-    "margin": 10,
-    "border_width": 2,
-    "border_focus": "#ff00ff",
-    "border_normal": "#f4c2c2",
-}
-monad_theme = layout_theme.copy()
-monad_theme["margin"] = 16
-
-layouts = [
-    layout.MonadTall(**monad_theme),
-    layout.MonadWide(**monad_theme),
-    layout.Matrix(**layout_theme),
-    layout.Bsp(**layout_theme),
-    layout.Floating(**layout_theme),
-    layout.RatioTile(**layout_theme),
-    layout.Max(**layout_theme),
-    layout.Columns(**layout_theme),
-    layout.Stack(**layout_theme),
-    layout.Tile(**layout_theme),
-    layout.TreeTab(
-        sections=["FIRST", "SECOND"],
-        bg_color="#141414",
-        active_bg="#0000ff",
-        inactive_bg="#1e90ff",
-        padding_y=5,
-        section_top=10,
-        panel_width=280,
-    ),
-    layout.VerticalTile(**layout_theme),
-    layout.Zoomy(**layout_theme),
-]
-
 # COLORS FOR THE BAR
 
 
@@ -376,25 +344,72 @@ Colors = namedtuple(
         "active",
         "inactive",
         "pallete",
+        "red",
+        "purple",
     ],
 )
 
-pallete = ["#9A348E", "#DA627D", "#FCA17D", "#86BBD8", "#06969A", "#33658A"]
+pallete = [
+    "#9A348E",
+    "#DA627D",
+    "#FCA17D",
+    "#86BBD8",
+    "#06969A",
+    "#33658A",
+]
 
 colors = Colors(
     background=listify("#2D2A2E"),
     foreground=listify("#FCFCFA"),
     active=listify("#FCA17D"),
-    inactive=listify("#875541"),
+    inactive=listify("#f4c2c2"),
     pallete=[listify(color) for color in pallete],
+    red=listify("#DA627D"),
+    purple=listify("#FF00FF"),
 )
+
+# LAYOUTS
+
+layout_theme = {
+    "margin": 9,
+    "border_width": 2,
+    "border_focus": "#ff00ff",
+    "border_normal": "#f4c2c2",
+}
+monad_theme = layout_theme.copy()
+monad_theme["margin"] = 16
+
+layouts = [
+    layout.MonadTall(**layout_theme),
+    layout.MonadWide(**monad_theme),
+    layout.Matrix(**layout_theme),
+    layout.Bsp(**layout_theme),
+    layout.Floating(**layout_theme),
+    layout.RatioTile(**layout_theme),
+    layout.Max(**layout_theme),
+    layout.Columns(**layout_theme),
+    layout.Stack(**layout_theme),
+    layout.Tile(**layout_theme),
+    layout.TreeTab(
+        sections=["FIRST", "SECOND"],
+        bg_color="#141414",
+        active_bg="#0000ff",
+        inactive_bg="#1e90ff",
+        padding_y=5,
+        section_top=10,
+        panel_width=280,
+    ),
+    layout.VerticalTile(**layout_theme),
+    layout.Zoomy(**layout_theme),
+]
+
 
 # WIDGETS FOR THE BAR
 
 
 widget_defaults = dict(
-    font="JetBrainsMono Nerd Font",
-    fontsize=12,
+    font="JetBrainsMono Nerd Font Bold",
+    fontsize=15,
     padding=2,
     background=colors.background,
     foreground=colors.foreground,
@@ -404,7 +419,9 @@ widget_defaults = dict(
 def init_powerline_widget(
     foreground: list[str] = colors.foreground,
     background: list[str] = colors.background,
-    text="",
+    # text="",
+    text=" ",
+    # text="",
 ) -> widget.TextBox:
     """
     Creates a template widget to create the powerline effect implementation.
@@ -414,134 +431,183 @@ def init_powerline_widget(
         padding=0,
         foreground=foreground,
         background=background,
-        fontsize=17,
+        fontsize=32,
     )
 
 
 prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
-widgets_list = [
-    widget.Spacer(
-        length=7,
-        background=colors.pallete[0],
-    ),
-    widget.TextBox(
-        text="",
-        fontsize=22,
-        background=colors.pallete[0],
-        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("jgmenu_run")},
-    ),
-    widget.Spacer(
-        length=7,
-        background=colors.pallete[0],
-    ),
-    init_powerline_widget(
-        foreground=colors.pallete[0],
-        background=colors.pallete[1],
-        text="",
-    ),
-    widget.GroupBox(
-        background=colors.pallete[1],
-        fontsize=10,
-        margin_y=3,
-        margin_x=2,
-        padding_y=5,
-        padding_x=4,
-        borderwidth=3,
-        active=colors.foreground,
-        inactive=colors.background,
-        rounded=False,
-        highlight_method="line",
-        urgent_alert_method="block",
-        urgent_border=colors.foreground,
-        highlight_color=colors.pallete[1],
-        this_current_screen_border=colors.foreground,
-        disable_drag=True,
-    ),
-    init_powerline_widget(
-        foreground=colors.pallete[1],
-        text="",
-    ),
-    # widget.TaskList(
-    #     highlight_method="border",
-    #     borderwidth=1,
-    #     icon_size=17,
-    #     max_title_width=150,
-    #     rounded=True,
-    #     padding=2,
-    #     border=colors.active,
-    #     margin=0,
-    #     txt_floating="🗗",
-    #     txt_minimized=">_ ",
-    # ),
-    widget.WindowTabs(),
-    init_powerline_widget(
-        background=colors.background,
-        foreground=colors.pallete[4],
-    ),
+
+red_spacer = widget.Spacer(
+    length=7,
+    background=colors.purple,
+)
+bg_spacer = widget.Spacer(
+    length=7,
+)
+group_box = widget.GroupBox(
+    fontsize=40,
+    borderwidth=3,
+    active=colors.foreground,
+    inactive=colors.inactive,
+    rounded=False,
+    highlight_method="text",
+    urgent_alert_method="text",
+    this_current_screen_border=colors.purple,
+    disable_drag=True,
+)
+hidden_task_list = widget.WidgetBox(
+    widgets=[
+        widget.TaskList(
+            highlight_method="border",
+            borderwidth=1,
+            icon_size=17,
+            max_title_width=150,
+            rounded=True,
+            padding=1,
+            border=colors.purple,
+            margin=0,
+            txt_floating="🗗",
+            txt_minimized=">_ ",
+        ),
+    ],
+    text_closed=" ",
+    text_open=" ",
+)
+current_layout = [
     widget.CurrentLayoutIcon(
-        background=colors.pallete[4],
+        background=colors.purple,
         custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
         padding=0,
         scale=0.7,
     ),
     widget.CurrentLayout(
-        background=colors.pallete[4],
-        font="JetBrainsMono Nerd Font Bold",
+        background=colors.purple,
     ),
-    init_powerline_widget(
-        background=colors.pallete[4],
-        foreground=colors.pallete[3],
-    ),
-    widget.Net(
-        # Here enter your network name
-        interface=["wlp6s0"],
-        format="{down} ↓↑ {up}",
-        padding=0,
-    ),
-    widget.CPU(
-        background=colors.pallete[3],
-        update_interval=1,
-        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
-    ),
-    init_powerline_widget(
-        background=colors.pallete[3],
-        foreground=colors.pallete[2],
-    ),
-    widget.Memory(
-        background=colors.pallete[2],
-        format="{MemUsed: .0f}M/{MemTotal: .0f}M",
-        update_interval=1,
-        measure_mem="M",
-        mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
-    ),
-    init_powerline_widget(
-        background=colors.pallete[2],
-        foreground=colors.pallete[1],
-    ),
-    widget.Clock(
-        background=colors.pallete[1],
-        format="%d/%m/%Y %H:%M",
-    ),
-    init_powerline_widget(
-        background=colors.pallete[1],
-        foreground=colors.pallete[0],
-    ),
-    widget.Systray(
-        background=colors.pallete[0],
-        icon_size=20,
-        padding=4,
-    ),
-    widget.BatteryIcon(
-        background=colors.pallete[0],
-    ),
-    widget.Battery(
-        background=colors.pallete[0],
-        format="{percent:2.0%}",
-    ),
-    widget.Spacer(
-        length=7,
-        background=colors.pallete[0],
-    ),
+]
+check_updates = widget.CheckUpdates(
+    background=colors.purple,
+    display_format=" {updates}",
+    no_update_string=" 0",
+    mouse_callbacks={
+        "Button1": lambda: qtile.cmd_spawn(terminal + " -e sudo pacman -Syu")
+    },
+)
+hidden_net = widget.WidgetBox(
+    widgets=[
+        widget.Net(
+            # interface=["wlp6s0"],
+            interface=["wlp1s0"],
+            format="{down} 祝{up}",
+            padding=0,
+            foreground=colors.purple,
+        )
+    ],
+    text_closed=" ",
+    text_open=" : ",
+    foreground=colors.purple,
+)
+hidden_pc_status = widget.WidgetBox(
+    widgets=[
+        widget.DF(
+            foreground=colors.purple,
+            visible_on_warn=False,
+            format=" {uf}G {r:.0f}% ",
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
+        ),
+        widget.CPU(
+            foreground=colors.purple,
+            update_interval=1,
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
+            format=" {freq_current}GHz {load_percent}% ",
+        ),
+        widget.Memory(
+            foreground=colors.purple,
+            format=" {MemUsed:.0f}M/{MemTotal:.0f}M",
+            update_interval=1,
+            measure_mem="M",
+            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
+        ),
+    ],
+    text_closed="",
+    text_open=": ",
+    foreground=colors.purple,
+)
+clock = widget.Clock(
+    background=colors.purple,
+    format=" %d/%m/%Y  %H:%M",
+)
+hidden_systray = widget.WidgetBox(
+    widgets=[
+        widget.Systray(
+            icon_size=20,
+            padding=4,
+        ),
+    ],
+    foreground=colors.purple,
+    text_closed="  ",
+    text_open="  ",
+)
+battery = widget.Battery(
+    foreground=colors.purple,
+    format="{char} {percent:2.0%}",
+    charge_char=" ",
+    discharge_char="",
+    full_char="",
+    unknown_char="",
+    empty_char="",
+    low_percentage=0.2,
+)
+python_logo = widget.TextBox(
+    text="",
+    fontsize=25,
+    background=colors.purple,
+    mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("jgmenu_run")},
+)
+separator = widget.Sep(
+    linewidth=2,
+    padding=20,
+    foreground="#778472",
+)
+right_separator_bg = init_powerline_widget(
+    background=colors.purple,
+    foreground=colors.background,
+)
+right_separator_fg = init_powerline_widget(
+    foreground=colors.purple,
+    background=colors.background,
+)
+left_separator_bg = init_powerline_widget(
+    text=" ",
+    background=colors.purple,
+    foreground=colors.background,
+)
+left_separator_fg = init_powerline_widget(
+    text=" ",
+    foreground=colors.purple,
+    background=colors.background,
+)
+
+widgets_list = [
+    red_spacer,
+    python_logo,
+    left_separator_fg,
+    group_box,
+    left_separator_bg,
+    *current_layout,
+    left_separator_fg,
+    hidden_task_list,
+    widget.Spacer(),
+    hidden_systray,
+    hidden_pc_status,
+    right_separator_fg,
+    check_updates,
+    right_separator_bg,
+    hidden_net,
+    right_separator_fg,
+    clock,
+    right_separator_bg,
+    battery,
+    bg_spacer,
 ]
 
 widgets_screen1 = widgets_list.copy()
@@ -551,16 +617,17 @@ screens = [
     Screen(
         top=bar.Bar(
             widgets=widgets_screen1,
-            size=20,
-            opacity=0.85,
+            size=25,
+            opacity=1,
             background="000000",
+            margin=[9, 9, 2, 9],
         )
     ),
     Screen(
         top=bar.Bar(
             widgets=widgets_screen2,
             size=20,
-            opacity=0.85,
+            opacity=1,
             background="000000",
         )
     ),
