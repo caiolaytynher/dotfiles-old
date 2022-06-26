@@ -339,37 +339,70 @@ def listify(color_name: str, gradient_color: str = "") -> list[str]:
 Colors = namedtuple(
     "Colors",
     [
-        "background",
-        "foreground",
-        "active",
-        "inactive",
-        "pallete",
+        "black",
         "red",
+        "green",
+        "yellow",
+        "blue",
         "magenta",
+        "cyan",
+        "white",
     ],
 )
 
-pallete = [
-    "#9A348E",
-    "#DA627D",
-    "#FCA17D",
-    "#86BBD8",
-    "#06969A",
-    "#33658A",
-]
+PrimaryColors = namedtuple(
+    "PrimaryColors",
+    [
+        "background",
+        "foreground",
+    ],
+)
 
-colors = Colors(
-    # background=listify("#2D2A2E"),
-    background=listify("#282A36"),
-    # foreground=listify("#FCFCFA"),
-    foreground=listify("#F8F8F2"),
-    active=listify("#FCA17D"),
-    inactive=listify("#f4c2c2"),
-    pallete=[listify(color) for color in pallete],
-    # red=listify("#DA627D"),
-    red=listify("#FF5555"),
-    # magenta=listify("#FF00FF"),
-    magenta=listify("#FF79C6"),
+PalleteTemplate = namedtuple(
+    "PalleteTemplate",
+    [
+        "primary",
+        "normal",
+        "bright",
+        "dim",
+    ],
+)
+
+garuda_dracula = PalleteTemplate(
+    primary=PrimaryColors(
+        background=listify("#282a36"),
+        foreground=listify("#f8f8f2"),
+    ),
+    normal=Colors(
+        black=listify("#000000"),
+        red=listify("#ff5555"),
+        green=listify("#50fa7b"),
+        yellow=listify("#f1fa8c"),
+        blue=listify("#bd93f9"),
+        magenta=listify("#ff79c6"),
+        cyan=listify("#8be9fd"),
+        white=listify("#bbbbbb"),
+    ),
+    bright=Colors(
+        black=listify("#555555"),
+        red=listify("#ff5555"),
+        green=listify("#50fa7b"),
+        yellow=listify("#f1fa8c"),
+        blue=listify("#caa9fa"),
+        magenta=listify("#ff79c6"),
+        cyan=listify("#8be9fd"),
+        white=listify("#ffffff"),
+    ),
+    dim=Colors(
+        black=listify("#000000"),
+        red=listify("#a90000"),
+        green=listify("#049f2b"),
+        yellow=listify("#a3b106"),
+        blue=listify("#530aba"),
+        magenta=listify("#bb006b"),
+        cyan=listify("#433364"),
+        white=listify("#5f5f5f"),
+    ),
 )
 
 # LAYOUTS
@@ -377,15 +410,13 @@ colors = Colors(
 layout_theme = {
     "margin": 9,
     "border_width": 2,
-    "border_focus": colors.red,
-    "border_normal": "#f4c2c2",
+    "border_focus": garuda_dracula.normal.blue,
+    "border_normal": garuda_dracula.dim.white,
 }
-monad_theme = layout_theme.copy()
-monad_theme["margin"] = 16
 
 layouts = [
     layout.MonadTall(**layout_theme),
-    layout.MonadWide(**monad_theme),
+    layout.MonadWide(**layout_theme),
     layout.Matrix(**layout_theme),
     layout.Bsp(**layout_theme),
     layout.Floating(**layout_theme),
@@ -415,14 +446,14 @@ widget_defaults = dict(
     font="JetBrainsMono Nerd Font Bold",
     fontsize=15,
     padding=2,
-    background=colors.background,
-    foreground=colors.foreground,
+    background=garuda_dracula.primary.background,
+    foreground=garuda_dracula.primary.foreground,
 )
 
 
 def init_powerline_widget(
-    foreground: list[str] = colors.foreground,
-    background: list[str] = colors.background,
+    foreground: list[str] = garuda_dracula.primary.foreground,
+    background: list[str] = garuda_dracula.primary.background,
     # text="",
     text=" ",
     # text="",
@@ -441,9 +472,9 @@ def init_powerline_widget(
 
 prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
-red_spacer = widget.Spacer(
-    length=7,
-    background=colors.red,
+fg_spacer = widget.Spacer(
+    length=9,
+    background=garuda_dracula.normal.blue,
 )
 bg_spacer = widget.Spacer(
     length=7,
@@ -451,12 +482,12 @@ bg_spacer = widget.Spacer(
 group_box = widget.GroupBox(
     fontsize=40,
     borderwidth=3,
-    active=colors.foreground,
-    inactive=colors.inactive,
+    active=garuda_dracula.primary.foreground,
+    inactive=garuda_dracula.dim.white,
     rounded=False,
     highlight_method="text",
     urgent_alert_method="text",
-    this_current_screen_border=colors.red,
+    this_current_screen_border=garuda_dracula.normal.blue,
     disable_drag=True,
 )
 hidden_task_list = widget.WidgetBox(
@@ -468,7 +499,7 @@ hidden_task_list = widget.WidgetBox(
             max_title_width=150,
             rounded=True,
             padding=1,
-            border=colors.red,
+            border=garuda_dracula.normal.blue,
             margin=0,
             txt_floating="🗗",
             txt_minimized=">_ ",
@@ -476,21 +507,21 @@ hidden_task_list = widget.WidgetBox(
     ],
     text_closed=" ",
     text_open=" ",
-    foreground=colors.red,
+    foreground=garuda_dracula.normal.blue,
 )
 current_layout = [
     widget.CurrentLayoutIcon(
-        background=colors.red,
+        background=garuda_dracula.normal.blue,
         custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
         padding=0,
         scale=0.7,
     ),
     widget.CurrentLayout(
-        background=colors.red,
+        background=garuda_dracula.normal.blue,
     ),
 ]
 check_updates = widget.CheckUpdates(
-    background=colors.red,
+    background=garuda_dracula.normal.blue,
     display_format=" {updates}",
     no_update_string=" 0",
     mouse_callbacks={
@@ -504,29 +535,29 @@ hidden_net = widget.WidgetBox(
             interface=["wlp1s0"],
             format="{down} 祝{up}",
             padding=0,
-            foreground=colors.red,
+            foreground=garuda_dracula.normal.blue,
         )
     ],
     text_closed=" ",
     text_open=" : ",
-    foreground=colors.red,
+    foreground=garuda_dracula.normal.blue,
 )
 hidden_pc_status = widget.WidgetBox(
     widgets=[
         widget.DF(
-            foreground=colors.red,
+            foreground=garuda_dracula.normal.blue,
             visible_on_warn=False,
             format=" {uf}G {r:.0f}% ",
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
         ),
         widget.CPU(
-            foreground=colors.red,
+            foreground=garuda_dracula.normal.blue,
             update_interval=1,
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
             format=" {freq_current}GHz {load_percent}% ",
         ),
         widget.Memory(
-            foreground=colors.red,
+            foreground=garuda_dracula.normal.blue,
             format=" {MemUsed:.0f}M/{MemTotal:.0f}M",
             update_interval=1,
             measure_mem="M",
@@ -535,10 +566,10 @@ hidden_pc_status = widget.WidgetBox(
     ],
     text_closed="",
     text_open=": ",
-    foreground=colors.red,
+    foreground=garuda_dracula.normal.blue,
 )
 clock = widget.Clock(
-    background=colors.red,
+    background=garuda_dracula.normal.blue,
     format=" %d/%m/%Y  %H:%M",
 )
 hidden_systray = widget.WidgetBox(
@@ -548,12 +579,12 @@ hidden_systray = widget.WidgetBox(
             padding=4,
         ),
     ],
-    foreground=colors.red,
+    foreground=garuda_dracula.normal.blue,
     text_closed="  ",
     text_open="  ",
 )
 battery = widget.Battery(
-    foreground=colors.red,
+    foreground=garuda_dracula.normal.blue,
     format="{char} {percent:2.0%}",
     charge_char=" ",
     discharge_char="",
@@ -563,37 +594,32 @@ battery = widget.Battery(
     low_percentage=0.2,
 )
 python_logo = widget.TextBox(
-    text="",
-    fontsize=25,
-    background=colors.red,
+    text=" ",
+    fontsize=20,
+    background=garuda_dracula.normal.blue,
     mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("jgmenu_run")},
 )
-separator = widget.Sep(
-    linewidth=2,
-    padding=20,
-    foreground="#778472",
-)
 right_separator_bg = init_powerline_widget(
-    background=colors.red,
-    foreground=colors.background,
+    background=garuda_dracula.normal.blue,
+    foreground=garuda_dracula.primary.background,
 )
 right_separator_fg = init_powerline_widget(
-    foreground=colors.red,
-    background=colors.background,
+    foreground=garuda_dracula.normal.blue,
+    background=garuda_dracula.primary.background,
 )
 left_separator_bg = init_powerline_widget(
     text=" ",
-    background=colors.red,
-    foreground=colors.background,
+    background=garuda_dracula.normal.blue,
+    foreground=garuda_dracula.primary.background,
 )
 left_separator_fg = init_powerline_widget(
     text=" ",
-    foreground=colors.red,
-    background=colors.background,
+    foreground=garuda_dracula.normal.blue,
+    background=garuda_dracula.primary.background,
 )
 
 widgets_list = [
-    red_spacer,
+    fg_spacer,
     python_logo,
     left_separator_fg,
     group_box,
