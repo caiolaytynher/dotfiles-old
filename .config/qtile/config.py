@@ -74,6 +74,7 @@ keys = [
     Key([mod], "Return", lazy.spawn("alacritty")),
     Key([mod], "KP_Enter", lazy.spawn("alacritty")),
     Key([mod], "x", lazy.shutdown()),
+    Key([mod], "p", lazy.spawn("rofi -show drun")),
     # ------------------
     # SUPER + SHIFT KEYS
     # ------------------
@@ -527,6 +528,8 @@ check_updates = widget.CheckUpdates(
     mouse_callbacks={
         "Button1": lambda: qtile.cmd_spawn(terminal + " -e sudo pacman -Syu")
     },
+    # distro="Garuda",
+    distro="Arch",
 )
 hidden_net = widget.WidgetBox(
     widgets=[
