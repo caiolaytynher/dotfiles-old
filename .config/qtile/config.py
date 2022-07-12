@@ -29,20 +29,24 @@ import os
 import re
 import socket
 import subprocess
-import psutil  # Enable Swallow
-from collections import namedtuple  # Better color organization
 from typing import List  # noqa: F401
+
 from libqtile import layout, bar, widget, hook, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen, Rule
 from libqtile.command import lazy
 
-from libqtile.widget import Spacer
+import swallow
+from color_palletes import garuda_dracula
+
 
 # mod4 or mod = super key
 mod = "mod4"
 mod1 = "alt"
 mod2 = "control"
 home = os.path.expanduser("~")
+
+# Color pallete
+colors = garuda_dracula
 
 
 @lazy.function
@@ -270,7 +274,7 @@ groups = []
 # FOR QWERTY KEYBOARDS
 group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
-group_labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+# group_labels = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 # group_labels = ["", "", "", "", "", "", "", "", "", ""]
 group_labels = ["", "", "", "", "", "", "", "", "", ""]
 
@@ -287,22 +291,24 @@ group_layouts = [
     "floating",
 ]
 
-for i in range(len(group_names)):
+for group_name, group_layout, group_label in zip(
+    group_names, group_layouts, group_labels
+):
     groups.append(
         Group(
-            name=group_names[i],
-            layout=group_layouts[i].lower(),
-            label=group_labels[i],
+            name=group_name,
+            layout=group_layout.lower(),
+            label=group_label,
         )
     )
 
-for i in groups:
+for group in groups:
     keys.extend(
         [
             # -----------------
             # CHANGE WORKSPACES
             # -----------------
-            Key([mod], i.name, lazy.group[i.name].toscreen()),
+            Key([mod], group.name, lazy.group[group.name].toscreen()),
             Key([mod], "Tab", lazy.screen.next_group()),
             Key([mod, "shift"], "Tab", lazy.screen.prev_group()),
             Key(["mod1"], "Tab", lazy.screen.next_group()),
@@ -316,103 +322,21 @@ for i in groups:
             # ---------------------------------------------------------------------------
             Key(
                 [mod, "shift"],
-                i.name,
-                lazy.window.togroup(i.name),
-                lazy.group[i.name].toscreen(),
+                group.name,
+                lazy.window.togroup(group.name),
+                lazy.group[group.name].toscreen(),
             ),
         ]
     )
 
-# COLORS FOR THE BAR
-
-
-def listify(color_name: str, gradient_color: str = "") -> list[str]:
-    """
-    Converts a color into a valid qtile color list format.
-    '#FFFFFF' -> ['#FFFFFF', '#FFFFFF']
-    """
-    if gradient_color:
-        return [color_name, gradient_color]
-
-    return [color_name] * 2
-
-
-Colors = namedtuple(
-    "Colors",
-    [
-        "black",
-        "red",
-        "green",
-        "yellow",
-        "blue",
-        "magenta",
-        "cyan",
-        "white",
-    ],
-)
-
-PrimaryColors = namedtuple(
-    "PrimaryColors",
-    [
-        "background",
-        "foreground",
-    ],
-)
-
-PalleteTemplate = namedtuple(
-    "PalleteTemplate",
-    [
-        "primary",
-        "normal",
-        "bright",
-        "dim",
-    ],
-)
-
-garuda_dracula = PalleteTemplate(
-    primary=PrimaryColors(
-        background=listify("#282a36"),
-        foreground=listify("#f8f8f2"),
-    ),
-    normal=Colors(
-        black=listify("#000000"),
-        red=listify("#ff5555"),
-        green=listify("#50fa7b"),
-        yellow=listify("#f1fa8c"),
-        blue=listify("#bd93f9"),
-        magenta=listify("#ff79c6"),
-        cyan=listify("#8be9fd"),
-        white=listify("#bbbbbb"),
-    ),
-    bright=Colors(
-        black=listify("#555555"),
-        red=listify("#ff5555"),
-        green=listify("#50fa7b"),
-        yellow=listify("#f1fa8c"),
-        blue=listify("#caa9fa"),
-        magenta=listify("#ff79c6"),
-        cyan=listify("#8be9fd"),
-        white=listify("#ffffff"),
-    ),
-    dim=Colors(
-        black=listify("#000000"),
-        red=listify("#a90000"),
-        green=listify("#049f2b"),
-        yellow=listify("#a3b106"),
-        blue=listify("#530aba"),
-        magenta=listify("#bb006b"),
-        cyan=listify("#433364"),
-        white=listify("#5f5f5f"),
-    ),
-)
 
 # LAYOUTS
 
 layout_theme = {
     "margin": 9,
     "border_width": 2,
-    "border_focus": garuda_dracula.normal.blue,
-    "border_normal": garuda_dracula.dim.white,
+    "border_focus": colors.normal.blue,
+    "border_normal": colors.dim.white,
 }
 
 layouts = [
@@ -442,19 +366,18 @@ layouts = [
 
 # WIDGETS FOR THE BAR
 
-
 widget_defaults = dict(
     font="JetBrainsMono Nerd Font Bold",
     fontsize=15,
     padding=2,
-    background=garuda_dracula.primary.background,
-    foreground=garuda_dracula.primary.foreground,
+    background=colors.primary.background,
+    foreground=colors.primary.foreground,
 )
 
 
 def init_powerline_widget(
-    foreground: list[str] = garuda_dracula.primary.foreground,
-    background: list[str] = garuda_dracula.primary.background,
+    foreground: list[str] = colors.primary.foreground,
+    background: list[str] = colors.primary.background,
     # text="",
     text=" ",
     # text="",
@@ -475,7 +398,7 @@ prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
 
 fg_spacer = widget.Spacer(
     length=9,
-    background=garuda_dracula.normal.blue,
+    background=colors.normal.blue,
 )
 bg_spacer = widget.Spacer(
     length=7,
@@ -483,12 +406,12 @@ bg_spacer = widget.Spacer(
 group_box = widget.GroupBox(
     fontsize=40,
     borderwidth=3,
-    active=garuda_dracula.primary.foreground,
-    inactive=garuda_dracula.dim.white,
+    active=colors.primary.foreground,
+    inactive=colors.dim.white,
     rounded=False,
     highlight_method="text",
     urgent_alert_method="text",
-    this_current_screen_border=garuda_dracula.normal.blue,
+    this_current_screen_border=colors.normal.blue,
     disable_drag=True,
 )
 hidden_task_list = widget.WidgetBox(
@@ -500,7 +423,7 @@ hidden_task_list = widget.WidgetBox(
             max_title_width=150,
             rounded=True,
             padding=1,
-            border=garuda_dracula.normal.blue,
+            border=colors.normal.blue,
             margin=0,
             txt_floating="🗗",
             txt_minimized=">_ ",
@@ -508,21 +431,21 @@ hidden_task_list = widget.WidgetBox(
     ],
     text_closed=" ",
     text_open=" ",
-    foreground=garuda_dracula.normal.blue,
+    foreground=colors.normal.blue,
 )
 current_layout = [
     widget.CurrentLayoutIcon(
-        background=garuda_dracula.normal.blue,
+        background=colors.normal.blue,
         custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
         padding=0,
         scale=0.7,
     ),
     widget.CurrentLayout(
-        background=garuda_dracula.normal.blue,
+        background=colors.normal.blue,
     ),
 ]
 check_updates = widget.CheckUpdates(
-    background=garuda_dracula.normal.blue,
+    background=colors.normal.blue,
     display_format=" {updates}",
     no_update_string=" 0",
     mouse_callbacks={
@@ -538,29 +461,29 @@ hidden_net = widget.WidgetBox(
             interface=["wlp1s0"],
             format="{down} 祝{up}",
             padding=0,
-            foreground=garuda_dracula.normal.blue,
+            foreground=colors.normal.blue,
         )
     ],
     text_closed=" ",
     text_open=" : ",
-    foreground=garuda_dracula.normal.blue,
+    foreground=colors.normal.blue,
 )
 hidden_pc_status = widget.WidgetBox(
     widgets=[
         widget.DF(
-            foreground=garuda_dracula.normal.blue,
+            foreground=colors.normal.blue,
             visible_on_warn=False,
             format=" {uf}G {r:.0f}% ",
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
         ),
         widget.CPU(
-            foreground=garuda_dracula.normal.blue,
+            foreground=colors.normal.blue,
             update_interval=1,
             mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(terminal + " -e htop")},
             format=" {freq_current}GHz {load_percent}% ",
         ),
         widget.Memory(
-            foreground=garuda_dracula.normal.blue,
+            foreground=colors.normal.blue,
             format=" {MemUsed:.0f}M/{MemTotal:.0f}M",
             update_interval=1,
             measure_mem="M",
@@ -569,10 +492,10 @@ hidden_pc_status = widget.WidgetBox(
     ],
     text_closed="",
     text_open=": ",
-    foreground=garuda_dracula.normal.blue,
+    foreground=colors.normal.blue,
 )
 clock = widget.Clock(
-    background=garuda_dracula.normal.blue,
+    background=colors.normal.blue,
     format=" %d/%m/%Y  %H:%M",
 )
 hidden_systray = widget.WidgetBox(
@@ -582,12 +505,12 @@ hidden_systray = widget.WidgetBox(
             padding=4,
         ),
     ],
-    foreground=garuda_dracula.normal.blue,
+    foreground=colors.normal.blue,
     text_closed="  ",
     text_open="  ",
 )
 battery = widget.Battery(
-    foreground=garuda_dracula.normal.blue,
+    foreground=colors.normal.blue,
     format="{char} {percent:2.0%}",
     charge_char=" ",
     discharge_char="",
@@ -595,31 +518,31 @@ battery = widget.Battery(
     unknown_char="",
     empty_char="",
     low_percentage=0.2,
-    low_foreground=garuda_dracula.normal.red,
+    low_foreground=colors.normal.red,
 )
 python_logo = widget.TextBox(
     text=" ",
     fontsize=20,
-    background=garuda_dracula.normal.blue,
+    background=colors.normal.blue,
     mouse_callbacks={"Button1": lambda: qtile.cmd_spawn("jgmenu_run")},
 )
 right_separator_bg = init_powerline_widget(
-    background=garuda_dracula.normal.blue,
-    foreground=garuda_dracula.primary.background,
+    background=colors.normal.blue,
+    foreground=colors.primary.background,
 )
 right_separator_fg = init_powerline_widget(
-    foreground=garuda_dracula.normal.blue,
-    background=garuda_dracula.primary.background,
+    foreground=colors.normal.blue,
+    background=colors.primary.background,
 )
 left_separator_bg = init_powerline_widget(
     text=" ",
-    background=garuda_dracula.normal.blue,
-    foreground=garuda_dracula.primary.background,
+    background=colors.normal.blue,
+    foreground=colors.primary.background,
 )
 left_separator_fg = init_powerline_widget(
     text=" ",
-    foreground=garuda_dracula.normal.blue,
-    background=garuda_dracula.primary.background,
+    foreground=colors.normal.blue,
+    background=colors.primary.background,
 )
 
 widgets_list = [
@@ -655,7 +578,7 @@ screens = [
             size=25,
             opacity=1,
             background="000000",
-            margin=[9, 9, 2, 9],
+            margin=[9, 9, 0, 9],
         )
     ),
     Screen(
@@ -791,29 +714,3 @@ auto_fullscreen = True
 focus_on_window_activation = "focus"  # or smart
 
 wmname = "LG3D"
-
-# ENABLE SWALLOW
-
-
-@hook.subscribe.client_new
-def _swallow(window):
-    pid = window.window.get_net_wm_pid()
-    ppid = psutil.Process(pid).ppid()
-    cpids = {
-        c.window.get_net_wm_pid(): wid for wid, c in window.qtile.windows_map.items()
-    }
-    for i in range(5):
-        if not ppid:
-            return
-        if ppid in cpids:
-            parent = window.qtile.windows_map.get(cpids[ppid])
-            parent.minimized = True
-            window.parent = parent
-            return
-        ppid = psutil.Process(ppid).ppid()
-
-
-@hook.subscribe.client_killed
-def _unswallow(window):
-    if hasattr(window, "parent"):
-        window.parent.minimized = False
