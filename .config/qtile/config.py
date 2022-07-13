@@ -102,7 +102,7 @@ keys = [
     Key(
         ["mod1", "control"],
         "o",
-        lazy.spawn(home + "/.config/qtile/scripts/picom-toggle.sh"),
+        lazy.spawn(f"{home}/.config/qtile/scripts/picom-toggle.sh"),
     ),
     Key(["mod1", "control"], "t", lazy.spawn("xterm")),
     Key(["mod1", "control"], "u", lazy.spawn("pavucontrol")),
@@ -120,8 +120,8 @@ keys = [
     # -----------
     # SCREENSHOTS
     # -----------
-    Key([], "Print", lazy.spawn("flameshot full -p " + home + "/Pictures")),
-    Key([mod2], "Print", lazy.spawn("flameshot full -p " + home + "/Pictures")),
+    Key([], "Print", lazy.spawn(f"flameshot full -p {home}/Pictures")),
+    Key([mod2], "Print", lazy.spawn(f"flameshot full -p {home}/Pictures")),
     #    Key([mod2, "shift"], "Print", lazy.spawn('gnome-screenshot -i')),
     # ---------------
     # MULTIMEDIA KEYS
@@ -436,7 +436,7 @@ hidden_task_list = widget.WidgetBox(
 current_layout = [
     widget.CurrentLayoutIcon(
         background=colors.normal.blue,
-        custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
+        custom_icon_paths=[f"{home}/.config/qtile/icons"],
         padding=0,
         scale=0.7,
     ),
@@ -654,8 +654,7 @@ main = None
 
 @hook.subscribe.startup_once
 def start_once():
-    home = os.path.expanduser("~")
-    subprocess.call([home + "/.config/qtile/scripts/autostart.sh"])
+    subprocess.call([os.path.expanduser("~/.config/qtile/scripts/autostart.sh")])
 
 
 @hook.subscribe.startup
