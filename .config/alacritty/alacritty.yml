@@ -282,7 +282,7 @@ draw_bold_text_with_bright_colors: true
 # The value `0.0` is completely transparent and `1.0` is opaque.
 #background_opacity: 0.6
 window:
-  opacity: 0.6
+  opacity: 0.8
 
 #selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
@@ -1054,6 +1054,32 @@ schemes:
       cyan:    '#54ced6'
       white:   '#282a2e'
 
+  SonokaiDefault: &SonokaiDefault
+
+    primary:
+      background: "0x2c2e34"
+      foreground: "0xe2e2e3"
+
+    normal:
+      black: "0x181819"
+      red: "0xfc5d7c"
+      green: "0x9ed072"
+      yellow: "0xe7c664"
+      blue: "0x76cce0"
+      magenta: "0xb39df3"
+      cyan: "0xf39660"
+      white: "0xe2e2e3"
+
+    bright:
+      black: "0x7f8490"
+      red: "0xfc5d7c"
+      green: "0x9ed072"
+      yellow: "0xe7c664"
+      blue: "0x76cce0"
+      magenta: "0xb39df3"
+      cyan: "0xf39660"
+      white: "0xe2e2e3"
+
 ######################################################################
 ## SET THEME: Choose ONE color scheme from those in the above list. ##
 ## ###################################################################
@@ -1069,6 +1095,6 @@ schemes:
 # *SolarizedLight
 # *SolarizedDark
 # *TomorrowNight
+# *SonokaiDefault
 
-colors: *GarudaDracula
-
+colors: *GruvboxDark
