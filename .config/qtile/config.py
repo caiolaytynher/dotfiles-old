@@ -36,7 +36,7 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen, Rule
 from libqtile.command import lazy
 
 import swallow
-from color_schemes import gruvbox
+import color_schemes
 
 
 # mod4 or mod = super key
@@ -45,7 +45,7 @@ mod1 = "alt"
 mod2 = "control"
 home = os.path.expanduser("~")
 
-colors = gruvbox
+colors = color_schemes.gruvbox
 
 
 @lazy.function
