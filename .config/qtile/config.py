@@ -44,7 +44,6 @@ mod = "mod4"
 mod1 = "alt"
 mod2 = "control"
 home = os.path.expanduser("~")
-
 colors = color_schemes.gruvbox
 
 
@@ -327,7 +326,7 @@ layout_theme = {
     "margin": 9,
     "border_width": 2,
     "border_focus": colors.normal.yellow,
-    "border_normal": colors.dim.white,
+    "border_normal": colors.primary.background_light,
 }
 
 layouts = [
@@ -398,7 +397,7 @@ group_box = widget.GroupBox(
     fontsize=40,
     borderwidth=3,
     active=colors.primary.foreground,
-    inactive=colors.dim.white,
+    inactive=colors.primary.background_light,
     rounded=False,
     highlight_method="text",
     urgent_alert_method="text",
