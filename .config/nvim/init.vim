@@ -11,7 +11,7 @@ set shiftwidth=4
 set expandtab
 set ai
 set si
-"set relativenumber
+set relativenumber
 set nu
 set nohlsearch
 set hidden
@@ -54,8 +54,8 @@ au BufNewFile,BufRead *.fish set filetype=fish
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
 autocmd FileType json setlocal shiftwidth=2 tabstop=2
 autocmd FileType css setlocal shiftwidth=2 tabstop=2
-autocmd FileType latex setlocal shiftwidth=2 tabstop=2 textwidth=72
-autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 textwidth=72
+autocmd FileType latex setlocal shiftwidth=2 tabstop=2 tw=67
+autocmd FileType markdown setlocal shiftwidth=2 tabstop=2 tw=67
 
 fun! TrimWhitespace()
     let l:save = winsaveview()
@@ -66,21 +66,14 @@ endfun
 autocmd BufWritePre * :call TrimWhitespace()
 
 if exists("&termguicolors") && exists("&winblend")
-  syntax enable
-  set termguicolors
-  set winblend=0
-  set wildoptions=pum
-  set pumblend=5
-  set background=dark
-  " Use colorscheme
-  let g:neosolarized_termtrans=1
-  runtime ./colors/NeoSolarized.vim
-  colorscheme NeoSolarized
-  " runtime ./colors/tomorrow-night.vim
-  " runtime ./colors/doom-one.vim
-  " runtime ./colors/dracula.vim
-  " let g:sublimemonokai_termtrans=1
-  " runtime ./colors/sublimemonokai.vim
-  " colorscheme sublimemonokai
+    syntax enable
+    set termguicolors
+    set winblend=0
+    set wildoptions=pum
+    set pumblend=5
+    set background=dark
+    colorscheme gruvbox
+    highlight Normal guibg=none
+    highlight NonText guibg=none
 endif
 
