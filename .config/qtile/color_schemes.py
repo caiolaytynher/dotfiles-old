@@ -17,7 +17,8 @@ gruvbox = ColorScheme(
         black="0x282828",
         red="0xcc241d",
         green="0x98971a",
-        yellow="0xd79921",
+        # yellow="0xd79921",
+        yellow="#d65d0e",  # Normal Orange
         blue="0x458588",
         magenta="0xb16286",
         cyan="0x689d6a",
@@ -27,16 +28,13 @@ gruvbox = ColorScheme(
         black="0x928374",
         red="0xfb4934",
         green="0xb8bb26",
-        yellow="0xfabd2f",
+        # yellow="0xfabd2f",
+        yellow="#fe8019",  # Bright Orange
         blue="0x83a598",
         magenta="0xd3869b",
         cyan="0x8ec07c",
         white="0xebdbb2",
     ),
-    # extra=Extra(
-    # 	normal_orange='#d65d0e',
-    # 	bright_orange='#fe8019',
-    # ),
 )
 
 dracula = ColorScheme(
