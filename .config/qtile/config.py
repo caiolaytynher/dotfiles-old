@@ -508,7 +508,7 @@ battery = widget.Battery(
     unknown_char="",
     empty_char="",
     low_percentage=0.2,
-    low_foreground=colors.normal.red,
+    low_foreground=colors.bright.red,
 )
 python_logo = widget.TextBox(
     text=" ",
