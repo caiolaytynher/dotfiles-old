@@ -86,6 +86,7 @@ keys = [
     Key([mod, "shift"], "r", lazy.restart()),
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "shift"], "x", lazy.shutdown()),
+    Key([mod, "shift"], "c", lazy.spawn(f"{home}/.config/qtile/scripts/change-color-scheme.sh")),
     # ------------------
     # CONTROL + ALT KEYS
     # ------------------
