@@ -1,0 +1,13 @@
+@import "./config.rasi"
+
+entry {
+  placeholder: "Change color scheme...";
+}
+
+element {
+  children: [element-text];
+}
+
+element-text {
+  padding: 5;
+}
