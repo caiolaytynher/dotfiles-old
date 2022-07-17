@@ -14,7 +14,6 @@ configuration {
   bg-lighter: #504945;
   fg: #ebdbb2;
   accent: #d65d0e;
-  bright-accent: #fe8019;
 
   background-color: @bg;
   text-color: @fg;
