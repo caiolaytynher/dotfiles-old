@@ -348,10 +348,12 @@
 #    summary = "foobar"
 #    format = ""
 
-#[history-ignore]
+[history-ignore]
 #    # This notification will not be saved in history
 #    summary = "foobar"
-#    history_ignore = yes
+    appname = change_volume
+    appname = change_brightness
+    history_ignore = yes
 
 #[signed_on]
 #    appname = Pidgin
