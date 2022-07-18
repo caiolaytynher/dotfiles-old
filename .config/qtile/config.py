@@ -73,9 +73,8 @@ keys = [
     Key([mod], "v", lazy.spawn("pavucontrol")),
     Key([mod], "d", lazy.spawn("nwggrid -p -o 0.4")),
     Key([mod], "Escape", lazy.spawn("xkill")),
-    Key([mod], "Return", lazy.spawn("alacritty")),
-    Key([mod], "KP_Enter", lazy.spawn("alacritty")),
-    # Key([mod], "x", lazy.shutdown()),
+    Key([mod], "Return", lazy.spawn(terminal)),
+    Key([mod], "KP_Enter", lazy.spawn(terminal)),
     Key([mod], "p", lazy.spawn("rofi -show drun")),
     Key([mod], "b", lazy.spawn("qtile cmd-obj -o cmd -f hide_show_bar")),
     # ------------------
@@ -83,10 +82,7 @@ keys = [
     # ------------------
     Key([mod, "shift"], "Return", lazy.spawn("pcmanfm")),
     Key([mod, "shift"], "d", lazy.spawn(f"{home}/.config/qtile/scripts/dmenu.sh")),
-    Key([mod, "shift"], "q", lazy.window.kill()),
     Key([mod, "shift"], "r", lazy.restart()),
-    Key([mod, "control"], "r", lazy.restart()),
-    # Key([mod, "shift"], "x", lazy.shutdown()),
     Key(
         [mod, "shift"],
         "x",
@@ -105,8 +101,6 @@ keys = [
         "o",
         lazy.spawn(f"{home}/.config/qtile/scripts/picom-toggle.sh"),
     ),
-    Key(["mod1", "control"], "t", lazy.spawn("xterm")),
-    Key(["mod1", "control"], "u", lazy.spawn("pavucontrol")),
     # --------------
     # ALT + ... KEYS
     # --------------
@@ -122,29 +116,43 @@ keys = [
     # SCREENSHOTS
     # -----------
     Key([], "Print", lazy.spawn(f"flameshot full -p {home}/Pictures")),
-    Key([mod2], "Print", lazy.spawn(f"flameshot full -p {home}/Pictures")),
-    #    Key([mod2, "shift"], "Print", lazy.spawn('gnome-screenshot -i')),
     # ---------------
     # MULTIMEDIA KEYS
     # ----------------------------
     # INCREASE/DECREASE BRIGHTNESS
     # ----------------------------
-    Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 5")),
-    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 5")),
+    Key(
+        [],
+        "XF86MonBrightnessUp",
+        lazy.spawn(f"{home}/.config/qtile/scripts/change-brightness.sh up"),
+    ),
+    Key(
+        [],
+        "XF86MonBrightnessDown",
+        lazy.spawn(f"{home}/.config/qtile/scripts/change-brightness.sh down"),
+    ),
     # -----------------------------
     # INCREASE/DECREASE/MUTE VOLUME
     # -----------------------------
-    Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -q set Master 5%-")),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -q set Master 5%+")),
+    Key(
+        [],
+        "XF86AudioMute",
+        lazy.spawn(f"{home}/.config/qtile/scripts/change-volume.sh mute"),
+    ),
+    Key(
+        [],
+        "XF86AudioLowerVolume",
+        lazy.spawn(f"{home}/.config/qtile/scripts/change-volume.sh down"),
+    ),
+    Key(
+        [],
+        "XF86AudioRaiseVolume",
+        lazy.spawn(f"{home}/.config/qtile/scripts/change-volume.sh up"),
+    ),
     Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
     Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
     Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
     Key([], "XF86AudioStop", lazy.spawn("playerctl stop")),
-    #    Key([], "XF86AudioPlay", lazy.spawn("mpc toggle")),
-    #    Key([], "XF86AudioNext", lazy.spawn("mpc next")),
-    #    Key([], "XF86AudioPrev", lazy.spawn("mpc prev")),
-    #    Key([], "XF86AudioStop", lazy.spawn("mpc stop")),
     # -----------------
     # QTILE LAYOUT KEYS
     # -----------------
