@@ -75,8 +75,9 @@ keys = [
     Key([mod], "Escape", lazy.spawn("xkill")),
     Key([mod], "Return", lazy.spawn("alacritty")),
     Key([mod], "KP_Enter", lazy.spawn("alacritty")),
-    Key([mod], "x", lazy.shutdown()),
+    # Key([mod], "x", lazy.shutdown()),
     Key([mod], "p", lazy.spawn("rofi -show drun")),
+    Key([mod], "b", lazy.spawn("qtile cmd-obj -o cmd -f hide_show_bar")),
     # ------------------
     # SUPER + SHIFT KEYS
     # ------------------
@@ -85,8 +86,17 @@ keys = [
     Key([mod, "shift"], "q", lazy.window.kill()),
     Key([mod, "shift"], "r", lazy.restart()),
     Key([mod, "control"], "r", lazy.restart()),
-    Key([mod, "shift"], "x", lazy.shutdown()),
-    Key([mod, "shift"], "c", lazy.spawn(f"{home}/.config/qtile/scripts/change-color-scheme.sh")),
+    # Key([mod, "shift"], "x", lazy.shutdown()),
+    Key(
+        [mod, "shift"],
+        "x",
+        lazy.spawn(f"{home}/.config/qtile/scripts/power-off-screen.sh"),
+    ),
+    Key(
+        [mod, "shift"],
+        "c",
+        lazy.spawn(f"{home}/.config/qtile/scripts/change-color-scheme.sh"),
+    ),
     # ------------------
     # CONTROL + ALT KEYS
     # ------------------
