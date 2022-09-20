@@ -9,11 +9,11 @@ configuration {
 @theme "/dev/null"
 
 * {
-  bg: #282828;
-  bg-light: #3c3836;
-  bg-lighter: #504945;
-  fg: #ebdbb2;
-  accent: #d65d0e;
+  bg: #282a36;
+  bg-light: #343746;
+  bg-lighter: #424450;
+  fg: #f8f8f2;
+  accent: #bd93f9;
 
   background-color: @bg;
   text-color: @fg;
