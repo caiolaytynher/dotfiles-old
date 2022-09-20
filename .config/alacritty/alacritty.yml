@@ -813,4 +813,4 @@ schemes:
 # *gruvbox
 # *dracula
 
-colors: *gruvbox
+colors: *dracula
