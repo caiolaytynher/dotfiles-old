@@ -11,6 +11,14 @@ alias la 'exa -laB --no-time --group-directories-first --icons'
 alias cat 'bat'
 alias grep 'rg'
 
+function activate -a name
+  source $HOME/.python-venvs/$name/bin/activate.fish
+end
+
+function mkvenv -a name
+  python -m venv $HOME/.python-venvs/$name
+end
+
 if status --is-interactive
     # source ("/usr/bin/starship" init fish --print-full-init | psub)
     abbr --add --global pyproj "cd $HOME/Documents/python"
