@@ -11,21 +11,38 @@ alias la 'exa -laB --no-time --group-directories-first --icons'
 alias cat 'bat'
 alias grep 'rg'
 
-function activate -a name
-  source $HOME/.python-venvs/$name/bin/activate.fish
+function mkvenv
+  set -l name (basename (pwd))
+  python -m venv $HOME/.python-venvs/$name
 end
 
-function mkvenv -a name
-  python -m venv $HOME/.python-venvs/$name
+function rmvenv
+  set -l name (basename (pwd))
+  set -l venvpath $HOME/.python-venvs
+
+  if test -e $venvpath/$name/
+    rm -r $venvpath/$name/
+  end
+end
+
+function activate
+  set -l name (basename (pwd))
+  set -l venvpath $HOME/.python-venvs
+
+  if not test -e $venvpath/$name/
+    mkvenv
+  end
+
+  source $venvpath/$name/bin/activate.fish
 end
 
 if status --is-interactive
     # source ("/usr/bin/starship" init fish --print-full-init | psub)
-    abbr --add --global pyproj "cd $HOME/Documents/python"
-    abbr --add --global cproj "cd $HOME/Documents/c"
-    abbr --add --global prog-ii "cd $HOME/Documents/c/prog-ii"
+    abbr --add --global pyproj "cd $HOME/Projects/python"
+    abbr --add --global pytesting "cd $HOME/Projects/python/testing"
+    abbr --add --global cproj "cd $HOME/Projects/c"
+    abbr --add --global prog-ii "cd $HOME/Projects/c/prog-ii"
     abbr --add --global base "source $HOME/.python-venvs/base/bin/activate.fish"
-    abbr --add --global ic "source $HOME/.python-venvs/ic/bin/activate.fish"
 end
 
 if status --is-interactive && type -q neofetch
