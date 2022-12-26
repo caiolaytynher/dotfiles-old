@@ -11,45 +11,47 @@ alias la 'exa -laB --no-time --group-directories-first --icons'
 alias cat 'bat'
 alias grep 'rg'
 
-if type -q python
-  function mkvenv
-    set -l name (basename (pwd))
-    set -l venvpath $HOME/.python-venvs
+function mkvenv
+  set -l name (basename (pwd))
+  set -l venvpath $HOME/.python-venvs
 
-    if test -e $venvpath/$name
-      echo "The venv already exists."
+  if test -e $venvpath/$name
+    echo "The venv already exists."
+    return
+  end
+
+  python -m venv $HOME/.python-venvs/$name
+end
+
+function rmvenv
+  set -l name (basename (pwd))
+  set -l venvpath $HOME/.python-venvs
+
+  if not test "$VIRTUAL_ENV" = "" # if venv is active
+    deactivate
+  end
+
+  if test -e $venvpath/$name/
+    rm -r $venvpath/$name/
+  end
+end
+
+function activate
+  set -l name (basename (pwd))
+  set -l venvpath $HOME/.python-venvs
+
+  if not test -e $venvpath/$name/
+    read -P 'No venv available, create one? (Y/n) ' -l choice
+    set -l choice (string lower $choice)
+
+    if test $choice = "n"
       return
     end
 
-    python -m venv $HOME/.python-venvs/$name
+    mkvenv
   end
 
-  function rmvenv
-    set -l name (basename (pwd))
-    set -l venvpath $HOME/.python-venvs
-
-    if test -e $venvpath/$name/
-      rm -r $venvpath/$name/
-    end
-  end
-
-  function activate
-    set -l name (basename (pwd))
-    set -l venvpath $HOME/.python-venvs
-
-    if not test -e $venvpath/$name/
-      echo "No venv available, create one? (Y/n)"
-      read choice
-
-      if not test \( $choice = "Y" \) -o \( $choice = "y" \)
-        return
-      end
-
-      mkvenv
-    end
-
-    source $venvpath/$name/bin/activate.fish
-  end
+  source $venvpath/$name/bin/activate.fish
 end
 
 if status --is-interactive
