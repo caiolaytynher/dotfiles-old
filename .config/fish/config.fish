@@ -6,11 +6,6 @@ if type "qtile" >> /dev/null 2>&1 # similar to type -q, but includes the errors
   set -x QT_QPA_PLATFORMTHEME "qt5ct"
 end
 
-alias ls 'exa -lB --no-time --group-directories-first --icons'
-alias la 'exa -laB --no-time --group-directories-first --icons'
-alias cat 'bat'
-alias grep 'rg'
-
 function mkvenv
   set -l name (basename (pwd))
   set -l venvpath $HOME/.python-venvs
@@ -65,9 +60,17 @@ if status --is-interactive
     starship init fish | source
   end
 
-  abbr --add --global pyproj "cd $HOME/Projects/python"
-  abbr --add --global pytesting "cd $HOME/Projects/python/testing"
-  abbr --add --global cproj "cd $HOME/Projects/c"
-  abbr --add --global prog2 "cd $HOME/Projects/c/prog-ii"
-  abbr --add --global base "source $HOME/.python-venvs/base/bin/activate.fish"
+  set -l projects $HOME/Projects
+  set -l venvs $HOME/.python-venvs
+
+  abbr --add --global pyproj "cd $projects/python"
+  abbr --add --global pytesting "cd $projects/python/testing"
+  abbr --add --global cproj "cd $projects/c"
+  abbr --add --global prog2 "cd $projects/c/prog-ii"
+  abbr --add --global base "source $venvs/base/bin/activate.fish"
+
+  alias ls 'exa -lB --no-time --group-directories-first --icons'
+  alias la 'exa -laB --no-time --group-directories-first --icons'
+  alias cat 'bat'
+  alias grep 'rg'
 end
