@@ -22,6 +22,6 @@ element {
 }
 
 element-text {
-  font: "JetBrainsMono Nerd Font Bold 30";
+  font: "JetBrainsMono NF Bold 30";
   horizontal-align: 0.34;
 }
