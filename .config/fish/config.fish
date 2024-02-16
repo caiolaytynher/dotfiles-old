@@ -1,6 +1,6 @@
 set fish_greeting
 set VIRTUAL_ENV_DISABLE_PROMPT "1"
-set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+# set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
 
 if type "qtile" >> /dev/null 2>&1 # similar to type -q, but includes the errors
   set -x QT_QPA_PLATFORMTHEME "qt5ct"
@@ -51,10 +51,12 @@ end
 
 if status --is-interactive
   # Commands to run in interactive sessions, i.e. connected to a keyboard
+  # zoxide init --cmd cd fish | source
+  zoxide init fish | source
 
-  if type -q neofetch
-    neofetch
-  end
+  # if type -q neofetch
+  #   neofetch
+  # end
 
   if type -q starship
     starship init fish | source
@@ -74,3 +76,4 @@ if status --is-interactive
   alias cat 'bat'
   alias grep 'rg'
 end
+
