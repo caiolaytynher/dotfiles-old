@@ -1,7 +1,7 @@
 configuration {
   display-drun: " ";
   drun-display-format: "{icon} {name}";
-  font: "JetBrainsMono Nerd Font Bold 15";
+  font: "JetBrainsMono NF Bold 15";
   modi: "run,drun";
   show-icons: true;
 }
@@ -9,11 +9,11 @@ configuration {
 @theme "/dev/null"
 
 * {
-  bg: #24283b;
-  bg-light: #2E3347;
-  bg-lighter: #383D53;
-  fg: #c0caf5;
-  accent: #f7768e;
+  bg: #1e2127;
+  bg-light: #272B31;
+  bg-lighter: #30343A;
+  fg: #abb2bf;
+  accent: #e06c75;
 
   background-color: @bg;
   text-color: @fg;
@@ -90,5 +90,5 @@ prompt {
   background-color: @accent;
   border-radius: 10;
   margin: 0 5 0 0;
-  font: "JetBrainsMono Nerd Font Bold 20";
+  font: "JetBrainsMono NF Bold 20";
 }
