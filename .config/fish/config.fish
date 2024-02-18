@@ -1,79 +1,48 @@
-set fish_greeting
-set VIRTUAL_ENV_DISABLE_PROMPT "1"
-# set -x MANPAGER "sh -c 'col -bx | bat -l man -p'"
+# Disable fish welcome message
+set fish_greeting 
 
+# Disable virtual env prompt
+set VIRTUAL_ENV_DISABLE_PROMPT "1" 
+
+# Set the environment variable depending on qtile existence
 if type "qtile" >> /dev/null 2>&1 # similar to type -q, but includes the errors
   set -x QT_QPA_PLATFORMTHEME "qt5ct"
 end
 
-function mkvenv
-  set -l name (basename (pwd))
-  set -l venvpath $HOME/.python-venvs
-
-  if test -e $venvpath/$name
-    echo "The venv already exists."
-    return
-  end
-
-  python -m venv $HOME/.python-venvs/$name
-end
-
-function rmvenv
-  set -l name (basename (pwd))
-  set -l venvpath $HOME/.python-venvs
-
-  if not test "$VIRTUAL_ENV" = "" # if venv is active
-    deactivate
-  end
-
-  if test -e $venvpath/$name/
-    rm -r $venvpath/$name/
-  end
-end
-
-function activate
-  set -l name (basename (pwd))
-  set -l venvpath $HOME/.python-venvs
-
-  if not test -e $venvpath/$name/
-    read -P 'No venv available, create one? (Y/n) ' -l choice
-    set -l choice (string lower $choice)
-
-    if test $choice = "n"
-      return
-    end
-
-    mkvenv
-  end
-
-  source $venvpath/$name/bin/activate.fish
-end
 
 if status --is-interactive
   # Commands to run in interactive sessions, i.e. connected to a keyboard
-  # zoxide init --cmd cd fish | source
-  zoxide init fish | source
+  # NOTE: type -q <command> checks the existence of that command
 
-  # if type -q neofetch
-  #   neofetch
-  # end
+  # Activate vim mode
+  fish_vi_key_bindings
+
+  if type -q nvim
+    abbr --add --global vim 'nvim'
+  end
+
+  if type -q zoxide
+    zoxide init fish | source
+
+    abbr --add --global cd 'z'
+    abbr --add --global cdi 'zi'
+  end
 
   if type -q starship
     starship init fish | source
   end
 
-  set -l projects $HOME/Projects
-  set -l venvs $HOME/.python-venvs
+  if type -q exa
+    abbr --add --global ls 'exa -lB --no-time --group-directories-first --icons'
+    abbr --add --global la 'exa -laB --no-time --group-directories-first --icons'
+  end
+  
+  if type -q bat
+    abbr --add --global cat 'bat'
+  end
 
-  abbr --add --global pyproj "cd $projects/python"
-  abbr --add --global pytesting "cd $projects/python/testing"
-  abbr --add --global cproj "cd $projects/c"
-  abbr --add --global prog2 "cd $projects/c/prog-ii"
-  abbr --add --global base "source $venvs/base/bin/activate.fish"
-
-  alias ls 'exa -lB --no-time --group-directories-first --icons'
-  alias la 'exa -laB --no-time --group-directories-first --icons'
-  alias cat 'bat'
-  alias grep 'rg'
+  if type -q rg
+    abbr --add --global grep 'rg'
+  end
 end
 
